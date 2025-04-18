@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { motion } from 'framer-motion';
-import { CustomFont } from './ui/custom-font';
+import { motion } from "framer-motion";
+import { CustomFont } from "./ui/custom-font";
 
 export function AnimatedLogo() {
   return (
@@ -51,4 +51,4 @@ export function AnimatedLogo() {
       </CustomFont>
     </motion.div>
   );
-} 
+}

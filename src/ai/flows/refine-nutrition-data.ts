@@ -1,4 +1,4 @@
-'use server';
+"use server";
 
 /**
  * @fileOverview Refines nutritional data using Gemini to correct any anomalies, comparing with typical values.
@@ -8,47 +8,71 @@
  * - RefineNutritionDataOutput - The return type for the refineNutritionData function.
  */
 
-import {ai} from '@/ai/ai-instance';
-import {z} from 'genkit';
+import { ai } from "@/ai/ai-instance";
+import { z } from "genkit";
 
 const RefineNutritionDataInputSchema = z.object({
-  foodName: z.string().describe('The name of the food item.'),
-  calories: z.number().describe('The calorie count of the food item.'),
-  protein: z.number().describe('The protein content of the food item.'),
-  carbohydrates: z.number().describe('The carbohydrate content of the food item.'),
-  fat: z.number().describe('The fat content of the food item.'),
+  foodName: z.string().describe("The name of the food item."),
+  calories: z.number().describe("The calorie count of the food item."),
+  protein: z.number().describe("The protein content of the food item."),
+  carbohydrates: z
+    .number()
+    .describe("The carbohydrate content of the food item."),
+  fat: z.number().describe("The fat content of the food item."),
 });
-export type RefineNutritionDataInput = z.infer<typeof RefineNutritionDataInputSchema>;
+export type RefineNutritionDataInput = z.infer<
+  typeof RefineNutritionDataInputSchema
+>;
 
 const RefineNutritionDataOutputSchema = z.object({
-  refinedCalories: z.number().describe('The refined calorie count of the food item.'),
-  refinedProtein: z.number().describe('The refined protein content of the food item.'),
-  refinedCarbohydrates: z.number().describe('The refined carbohydrate content of the food item.'),
-  refinedFat: z.number().describe('The refined fat content of the food item.'),
+  refinedCalories: z
+    .number()
+    .describe("The refined calorie count of the food item."),
+  refinedProtein: z
+    .number()
+    .describe("The refined protein content of the food item."),
+  refinedCarbohydrates: z
+    .number()
+    .describe("The refined carbohydrate content of the food item."),
+  refinedFat: z.number().describe("The refined fat content of the food item."),
 });
-export type RefineNutritionDataOutput = z.infer<typeof RefineNutritionDataOutputSchema>;
+export type RefineNutritionDataOutput = z.infer<
+  typeof RefineNutritionDataOutputSchema
+>;
 
-export async function refineNutritionData(input: RefineNutritionDataInput): Promise<RefineNutritionDataOutput> {
+export async function refineNutritionData(
+  input: RefineNutritionDataInput,
+): Promise<RefineNutritionDataOutput> {
   return refineNutritionDataFlow(input);
 }
 
 const refineNutritionDataPrompt = ai.definePrompt({
-  name: 'refineNutritionDataPrompt',
+  name: "refineNutritionDataPrompt",
   input: {
     schema: z.object({
-      foodName: z.string().describe('The name of the food item.'),
-      calories: z.number().describe('The calorie count of the food item.'),
-      protein: z.number().describe('The protein content of the food item.'),
-      carbohydrates: z.number().describe('The carbohydrate content of the food item.'),
-      fat: z.number().describe('The fat content of the food item.'),
+      foodName: z.string().describe("The name of the food item."),
+      calories: z.number().describe("The calorie count of the food item."),
+      protein: z.number().describe("The protein content of the food item."),
+      carbohydrates: z
+        .number()
+        .describe("The carbohydrate content of the food item."),
+      fat: z.number().describe("The fat content of the food item."),
     }),
   },
   output: {
     schema: z.object({
-      refinedCalories: z.number().describe('The refined calorie count of the food item.'),
-      refinedProtein: z.number().describe('The refined protein content of the food item.'),
-      refinedCarbohydrates: z.number().describe('The refined carbohydrate content of the food item.'),
-      refinedFat: z.number().describe('The refined fat content of the food item.'),
+      refinedCalories: z
+        .number()
+        .describe("The refined calorie count of the food item."),
+      refinedProtein: z
+        .number()
+        .describe("The refined protein content of the food item."),
+      refinedCarbohydrates: z
+        .number()
+        .describe("The refined carbohydrate content of the food item."),
+      refinedFat: z
+        .number()
+        .describe("The refined fat content of the food item."),
     }),
   },
   prompt: `You are an expert nutritionist. You will be given the name of a food item and its nutritional information.
@@ -81,16 +105,19 @@ Return a JSON object with the following keys and values:
 const refineNutritionDataFlow = ai.defineFlow<
   typeof RefineNutritionDataInputSchema,
   typeof RefineNutritionDataOutputSchema
->({
-  name: 'refineNutritionDataFlow',
-  inputSchema: RefineNutritionDataInputSchema,
-  outputSchema: RefineNutritionDataOutputSchema,
-}, async input => {
-  const {output} = await refineNutritionDataPrompt(input);
-  return {
-    refinedCalories: output!.refinedCalories,
-    refinedProtein: output!.refinedProtein,
-    refinedCarbohydrates: output!.refinedCarbohydrates,
-    refinedFat: output!.refinedFat,
-  };
-});
+>(
+  {
+    name: "refineNutritionDataFlow",
+    inputSchema: RefineNutritionDataInputSchema,
+    outputSchema: RefineNutritionDataOutputSchema,
+  },
+  async (input) => {
+    const { output } = await refineNutritionDataPrompt(input);
+    return {
+      refinedCalories: output!.refinedCalories,
+      refinedProtein: output!.refinedProtein,
+      refinedCarbohydrates: output!.refinedCarbohydrates,
+      refinedFat: output!.refinedFat,
+    };
+  },
+);

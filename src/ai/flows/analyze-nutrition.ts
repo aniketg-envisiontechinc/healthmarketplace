@@ -1,42 +1,58 @@
-'use server';
+"use server";
 
-import { ai } from '@/ai/ai-instance';
-import { z } from 'genkit';
+import { ai } from "@/ai/ai-instance";
+import { z } from "genkit";
 
 const AnalyzeNutritionInputSchema = z.object({
-  foodName: z.string().describe('The name of the food item.'),
-  portionSize: z.string().describe('The portion size of the food item.'),
+  foodName: z.string().describe("The name of the food item."),
+  portionSize: z.string().describe("The portion size of the food item."),
 });
 export type AnalyzeNutritionInput = z.infer<typeof AnalyzeNutritionInputSchema>;
 
 const AnalyzeNutritionOutputSchema = z.object({
-  calories: z.number().describe('The calorie count of the food item.'),
-  protein: z.number().describe('The protein content of the food item in grams.'),
-  carbohydrates: z.number().describe('The carbohydrate content of the food item in grams.'),
-  fat: z.number().describe('The fat content of the food item in grams.'),
-  confidence: z.number().describe('The confidence level of the analysis (0-1).'),
+  calories: z.number().describe("The calorie count of the food item."),
+  protein: z
+    .number()
+    .describe("The protein content of the food item in grams."),
+  carbohydrates: z
+    .number()
+    .describe("The carbohydrate content of the food item in grams."),
+  fat: z.number().describe("The fat content of the food item in grams."),
+  confidence: z
+    .number()
+    .describe("The confidence level of the analysis (0-1)."),
 });
-export type AnalyzeNutritionOutput = z.infer<typeof AnalyzeNutritionOutputSchema>;
+export type AnalyzeNutritionOutput = z.infer<
+  typeof AnalyzeNutritionOutputSchema
+>;
 
-export async function analyzeNutrition(input: AnalyzeNutritionInput): Promise<AnalyzeNutritionOutput> {
+export async function analyzeNutrition(
+  input: AnalyzeNutritionInput,
+): Promise<AnalyzeNutritionOutput> {
   return analyzeNutritionFlow(input);
 }
 
 const analyzeNutritionPrompt = ai.definePrompt({
-  name: 'analyzeNutritionPrompt',
+  name: "analyzeNutritionPrompt",
   input: {
     schema: z.object({
-      foodName: z.string().describe('The name of the food item.'),
-      portionSize: z.string().describe('The portion size of the food item.'),
+      foodName: z.string().describe("The name of the food item."),
+      portionSize: z.string().describe("The portion size of the food item."),
     }),
   },
   output: {
     schema: z.object({
-      calories: z.number().describe('The calorie count of the food item.'),
-      protein: z.number().describe('The protein content of the food item in grams.'),
-      carbohydrates: z.number().describe('The carbohydrate content of the food item in grams.'),
-      fat: z.number().describe('The fat content of the food item in grams.'),
-      confidence: z.number().describe('The confidence level of the analysis (0-1).'),
+      calories: z.number().describe("The calorie count of the food item."),
+      protein: z
+        .number()
+        .describe("The protein content of the food item in grams."),
+      carbohydrates: z
+        .number()
+        .describe("The carbohydrate content of the food item in grams."),
+      fat: z.number().describe("The fat content of the food item in grams."),
+      confidence: z
+        .number()
+        .describe("The confidence level of the analysis (0-1)."),
     }),
   },
   prompt: `You are an expert nutritionist and food scientist. Your task is to analyze the nutritional content of a food item based on its name and portion size.
@@ -78,17 +94,20 @@ Ensure that:
 const analyzeNutritionFlow = ai.defineFlow<
   typeof AnalyzeNutritionInputSchema,
   typeof AnalyzeNutritionOutputSchema
->({
-  name: 'analyzeNutritionFlow',
-  inputSchema: AnalyzeNutritionInputSchema,
-  outputSchema: AnalyzeNutritionOutputSchema,
-}, async input => {
-  const { output } = await analyzeNutritionPrompt(input);
-  return {
-    calories: output!.calories,
-    protein: output!.protein,
-    carbohydrates: output!.carbohydrates,
-    fat: output!.fat,
-    confidence: output!.confidence,
-  };
-}); 
+>(
+  {
+    name: "analyzeNutritionFlow",
+    inputSchema: AnalyzeNutritionInputSchema,
+    outputSchema: AnalyzeNutritionOutputSchema,
+  },
+  async (input) => {
+    const { output } = await analyzeNutritionPrompt(input);
+    return {
+      calories: output!.calories,
+      protein: output!.protein,
+      carbohydrates: output!.carbohydrates,
+      fat: output!.fat,
+      confidence: output!.confidence,
+    };
+  },
+);

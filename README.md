@@ -24,17 +24,20 @@ A modern web application for tracking meals and fitness activities with AI-power
 ## Getting Started
 
 1. Clone the repository
+
 ```bash
 git clone https://github.com/yourusername/studio-master.git
 cd studio-master
 ```
 
 2. Install dependencies
+
 ```bash
 npm install
 ```
 
 3. Run the development server
+
 ```bash
 npm run dev
 ```
@@ -69,11 +72,13 @@ NEXT_PUBLIC_GENKIT_API_KEY=your_genkit_api_key
 To deploy to your own server:
 
 1. Build the application
+
 ```bash
 npm run build
 ```
 
 2. Start the production server
+
 ```bash
 npm start
 ```
@@ -95,6 +100,7 @@ src/
 ## PWA Support
 
 The application is PWA-enabled, allowing users to install it on their devices for an app-like experience. Features include:
+
 - Offline support
 - Add to home screen
 - Fast loading times

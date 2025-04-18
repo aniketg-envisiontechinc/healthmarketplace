@@ -1,19 +1,34 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { format, subDays, isSameDay } from 'date-fns';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { mealService } from '@/services/meal-service';
-import { DailyNutrition } from '@/services/meal-service';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { useState, useEffect } from "react";
+import { format, subDays, isSameDay } from "date-fns";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { mealService } from "@/services/meal-service";
+import { DailyNutrition } from "@/services/meal-service";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
 export default function ActivityPage() {
   const router = useRouter();
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-  const [dailyNutrition, setDailyNutrition] = useState<DailyNutrition | null>(null);
+  const [dailyNutrition, setDailyNutrition] = useState<DailyNutrition | null>(
+    null,
+  );
   const [dateRange, setDateRange] = useState<Date[]>([]);
 
   useEffect(() => {
@@ -23,7 +38,7 @@ export default function ActivityPage() {
 
     // Load initial data
     loadDailyNutrition(selectedDate);
-  }, []);
+  }, [selectedDate]);
 
   const loadDailyNutrition = (date: Date) => {
     const nutrition = mealService.getDailyNutrition(date);
@@ -36,11 +51,11 @@ export default function ActivityPage() {
   };
 
   const formatDate = (date: Date) => {
-    return format(date, 'MMM d');
+    return format(date, "MMM d");
   };
 
   const formatTime = (dateString: string) => {
-    return format(new Date(dateString), 'h:mm a');
+    return format(new Date(dateString), "h:mm a");
   };
 
   return (
@@ -48,7 +63,9 @@ export default function ActivityPage() {
       <div className="space-y-8">
         <div className="space-y-2">
           <h1 className="text-3xl font-bold">Activity</h1>
-          <p className="text-muted-foreground">Track your daily activities and nutrition</p>
+          <p className="text-muted-foreground">
+            Track your daily activities and nutrition
+          </p>
         </div>
 
         {/* Today's Activity */}
@@ -69,7 +86,9 @@ export default function ActivityPage() {
               </div>
               <div className="space-y-1">
                 <p className="text-sm text-muted-foreground">Calories Intake</p>
-                <p className="text-2xl font-bold">{dailyNutrition?.totalCalories || 0}</p>
+                <p className="text-2xl font-bold">
+                  {dailyNutrition?.totalCalories || 0}
+                </p>
               </div>
               <div className="space-y-1">
                 <p className="text-sm text-muted-foreground">Net Calories</p>
@@ -85,10 +104,10 @@ export default function ActivityPage() {
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-bold">Food Activity</h2>
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               size="sm"
-              onClick={() => router.push('/dashboard/add-meal')}
+              onClick={() => router.push("/dashboard/add-meal")}
             >
               <Plus className="h-4 w-4 mr-2" />
               Add Meal
@@ -104,7 +123,9 @@ export default function ActivityPage() {
               {dateRange.map((date) => (
                 <Button
                   key={date.toISOString()}
-                  variant={isSameDay(date, selectedDate) ? "default" : "outline"}
+                  variant={
+                    isSameDay(date, selectedDate) ? "default" : "outline"
+                  }
                   className="flex-1 min-w-[100px]"
                   onClick={() => handleDateClick(date)}
                 >
@@ -123,26 +144,36 @@ export default function ActivityPage() {
               <CardHeader>
                 <CardTitle>Daily Summary</CardTitle>
                 <CardDescription>
-                  {format(selectedDate, 'EEEE, MMMM d, yyyy')}
+                  {format(selectedDate, "EEEE, MMMM d, yyyy")}
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-4 gap-4 mb-6">
                   <div className="space-y-1">
-                    <p className="text-sm text-muted-foreground">Total Calories</p>
-                    <p className="text-2xl font-bold">{dailyNutrition.totalCalories}</p>
+                    <p className="text-sm text-muted-foreground">
+                      Total Calories
+                    </p>
+                    <p className="text-2xl font-bold">
+                      {dailyNutrition.totalCalories}
+                    </p>
                   </div>
                   <div className="space-y-1">
                     <p className="text-sm text-muted-foreground">Protein</p>
-                    <p className="text-2xl font-bold">{dailyNutrition.totalProtein}g</p>
+                    <p className="text-2xl font-bold">
+                      {dailyNutrition.totalProtein}g
+                    </p>
                   </div>
                   <div className="space-y-1">
                     <p className="text-sm text-muted-foreground">Carbs</p>
-                    <p className="text-2xl font-bold">{dailyNutrition.totalCarbs}g</p>
+                    <p className="text-2xl font-bold">
+                      {dailyNutrition.totalCarbs}g
+                    </p>
                   </div>
                   <div className="space-y-1">
                     <p className="text-sm text-muted-foreground">Fat</p>
-                    <p className="text-2xl font-bold">{dailyNutrition.totalFat}g</p>
+                    <p className="text-2xl font-bold">
+                      {dailyNutrition.totalFat}g
+                    </p>
                   </div>
                 </div>
 
@@ -154,13 +185,17 @@ export default function ActivityPage() {
                       <Card key={meal.id} className="mb-4">
                         <CardHeader className="pb-2">
                           <div className="flex justify-between items-center">
-                            <CardTitle className="text-lg">{meal.name}</CardTitle>
+                            <CardTitle className="text-lg">
+                              {meal.name}
+                            </CardTitle>
                             <span className="text-sm text-muted-foreground">
                               {formatTime(meal.date)}
                             </span>
                           </div>
                           {meal.description && (
-                            <CardDescription>{meal.description}</CardDescription>
+                            <CardDescription>
+                              {meal.description}
+                            </CardDescription>
                           )}
                         </CardHeader>
                         <CardContent>
@@ -178,11 +213,19 @@ export default function ActivityPage() {
                             <TableBody>
                               {meal.foodItems.map((item, index) => (
                                 <TableRow key={index}>
-                                  <TableCell className="font-medium">{item.name}</TableCell>
+                                  <TableCell className="font-medium">
+                                    {item.name}
+                                  </TableCell>
                                   <TableCell>{item.portionSize}</TableCell>
-                                  <TableCell>{item.nutrition.calories}</TableCell>
-                                  <TableCell>{item.nutrition.protein}g</TableCell>
-                                  <TableCell>{item.nutrition.carbohydrates}g</TableCell>
+                                  <TableCell>
+                                    {item.nutrition.calories}
+                                  </TableCell>
+                                  <TableCell>
+                                    {item.nutrition.protein}g
+                                  </TableCell>
+                                  <TableCell>
+                                    {item.nutrition.carbohydrates}g
+                                  </TableCell>
                                   <TableCell>{item.nutrition.fat}g</TableCell>
                                 </TableRow>
                               ))}
@@ -204,4 +247,4 @@ export default function ActivityPage() {
       </div>
     </div>
   );
-} 
+}

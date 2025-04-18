@@ -12,7 +12,11 @@ export async function getNutrition(foodName: string): Promise<Nutrition> {
     const response = await fetch(url);
 
     if (!response.ok) {
-      console.error("Error fetching nutrition data from Open Food Facts:", response.status, response.statusText);
+      console.error(
+        "Error fetching nutrition data from Open Food Facts:",
+        response.status,
+        response.statusText,
+      );
       return {
         calories: 0,
         protein: 0,
@@ -28,10 +32,20 @@ export async function getNutrition(foodName: string): Promise<Nutrition> {
       const nutriments = product.nutriments;
 
       // Use optional chaining to safely access nested properties
-      const calories = nutriments['energy-kcal_100g'] !== undefined ? nutriments['energy-kcal_100g'] : 0;
-      const protein = nutriments['proteins_100g'] !== undefined ? nutriments['proteins_100g'] : 0;
-      const carbohydrates = nutriments['carbohydrates_100g'] !== undefined ? nutriments['carbohydrates_100g'] : 0;
-      const fat = nutriments['fat_100g'] !== undefined ? nutriments['fat_100g'] : 0;
+      const calories =
+        nutriments["energy-kcal_100g"] !== undefined
+          ? nutriments["energy-kcal_100g"]
+          : 0;
+      const protein =
+        nutriments["proteins_100g"] !== undefined
+          ? nutriments["proteins_100g"]
+          : 0;
+      const carbohydrates =
+        nutriments["carbohydrates_100g"] !== undefined
+          ? nutriments["carbohydrates_100g"]
+          : 0;
+      const fat =
+        nutriments["fat_100g"] !== undefined ? nutriments["fat_100g"] : 0;
 
       return {
         calories: calories,
@@ -40,7 +54,11 @@ export async function getNutrition(foodName: string): Promise<Nutrition> {
         fat: fat,
       };
     } else {
-      console.warn("No food data found for", foodName, "using Open Food Facts API");
+      console.warn(
+        "No food data found for",
+        foodName,
+        "using Open Food Facts API",
+      );
       return {
         calories: 0,
         protein: 0,
@@ -49,7 +67,10 @@ export async function getNutrition(foodName: string): Promise<Nutrition> {
       };
     }
   } catch (error: any) {
-    console.error("Failed to fetch nutrition information from Open Food Facts:", error.message);
+    console.error(
+      "Failed to fetch nutrition information from Open Food Facts:",
+      error.message,
+    );
     return {
       calories: 0,
       protein: 0,

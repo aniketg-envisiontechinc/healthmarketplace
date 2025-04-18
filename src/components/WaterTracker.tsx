@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { ActivityService } from '@/services/activity-service';
-import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
+import { useState } from "react";
+import { ActivityService } from "@/services/activity-service";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 
 export function WaterTracker() {
   const [waterIntake, setWaterIntake] = useState(0);
@@ -25,18 +25,10 @@ export function WaterTracker() {
           </p>
         </div>
         <div className="flex gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => addWater(250)}
-          >
+          <Button variant="outline" size="sm" onClick={() => addWater(250)}>
             +250ml
           </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => addWater(500)}
-          >
+          <Button variant="outline" size="sm" onClick={() => addWater(500)}>
             +500ml
           </Button>
         </div>
@@ -44,4 +36,4 @@ export function WaterTracker() {
       <Progress value={(waterIntake / WATER_GOAL) * 100} />
     </div>
   );
-} 
+}

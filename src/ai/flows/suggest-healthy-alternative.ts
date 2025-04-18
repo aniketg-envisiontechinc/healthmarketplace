@@ -1,5 +1,5 @@
 // src/ai/flows/suggest-healthy-alternative.ts
-'use server';
+"use server";
 
 /**
  * @fileOverview Suggests healthier alternatives for a given food item.
@@ -9,12 +9,14 @@
  * - SuggestHealthyAlternativeOutput - The return type for the suggestHealthyAlternative function.
  */
 
-import {ai} from '@/ai/ai-instance';
-import {z} from 'genkit';
-import {getNutrition, Nutrition} from '@/services/nutritionix';
+import { ai } from "@/ai/ai-instance";
+import { z } from "genkit";
+import { getNutrition, Nutrition } from "@/services/nutritionix";
 
 const SuggestHealthyAlternativeInputSchema = z.object({
-  foodName: z.string().describe('The name of the food item to find alternatives for.'),
+  foodName: z
+    .string()
+    .describe("The name of the food item to find alternatives for."),
 });
 export type SuggestHealthyAlternativeInput = z.infer<
   typeof SuggestHealthyAlternativeInputSchema
@@ -23,34 +25,36 @@ export type SuggestHealthyAlternativeInput = z.infer<
 const SuggestHealthyAlternativeOutputSchema = z.object({
   alternatives: z
     .array(z.string())
-    .describe('A list of healthier alternatives for the food item.'),
-  nutrition: z.record(z.string(), z.number()).describe('Nutritional information for the original food item.'),
+    .describe("A list of healthier alternatives for the food item."),
+  nutrition: z
+    .record(z.string(), z.number())
+    .describe("Nutritional information for the original food item."),
 });
 export type SuggestHealthyAlternativeOutput = z.infer<
   typeof SuggestHealthyAlternativeOutputSchema
 >;
 
 export async function suggestHealthyAlternative(
-  input: SuggestHealthyAlternativeInput
+  input: SuggestHealthyAlternativeInput,
 ): Promise<SuggestHealthyAlternativeOutput> {
   return suggestHealthyAlternativeFlow(input);
 }
 
 const suggestHealthyAlternativePrompt = ai.definePrompt({
-  name: 'suggestHealthyAlternativePrompt',
+  name: "suggestHealthyAlternativePrompt",
   input: {
     schema: z.object({
-      foodName: z.string().describe('The name of the food item.'),
+      foodName: z.string().describe("The name of the food item."),
       nutritionInfo: z
         .record(z.string(), z.number())
-        .describe('Nutritional information for the food item.'),
+        .describe("Nutritional information for the food item."),
     }),
   },
   output: {
     schema: z.object({
       alternatives: z
         .array(z.string())
-        .describe('A list of healthier alternatives for the food item.'),
+        .describe("A list of healthier alternatives for the food item."),
     }),
   },
   prompt: `Suggest healthier alternatives for {{foodName}}. Consider its nutritional values:
@@ -66,25 +70,27 @@ const suggestHealthyAlternativePrompt = ai.definePrompt({
 const suggestHealthyAlternativeFlow = ai.defineFlow<
   typeof SuggestHealthyAlternativeInputSchema,
   typeof SuggestHealthyAlternativeOutputSchema
->({
-  name: 'suggestHealthyAlternativeFlow',
-  inputSchema: SuggestHealthyAlternativeInputSchema,
-  outputSchema: SuggestHealthyAlternativeOutputSchema,
-},
-async input => {
-  const nutrition = await getNutrition(input.foodName);
-  const nutritionInfo: Record<string, number> = {
-    calories: nutrition.calories,
-    protein: nutrition.protein,
-    carbohydrates: nutrition.carbohydrates,
-    fat: nutrition.fat,
-  };
-  const {output} = await suggestHealthyAlternativePrompt({
-    foodName: input.foodName,
-    nutritionInfo,
-  });
-  return {
-    alternatives: output!.alternatives,
-    nutrition: nutritionInfo,
-  };
-});
+>(
+  {
+    name: "suggestHealthyAlternativeFlow",
+    inputSchema: SuggestHealthyAlternativeInputSchema,
+    outputSchema: SuggestHealthyAlternativeOutputSchema,
+  },
+  async (input) => {
+    const nutrition = await getNutrition(input.foodName);
+    const nutritionInfo: Record<string, number> = {
+      calories: nutrition.calories,
+      protein: nutrition.protein,
+      carbohydrates: nutrition.carbohydrates,
+      fat: nutrition.fat,
+    };
+    const { output } = await suggestHealthyAlternativePrompt({
+      foodName: input.foodName,
+      nutritionInfo,
+    });
+    return {
+      alternatives: output!.alternatives,
+      nutrition: nutritionInfo,
+    };
+  },
+);

@@ -7,7 +7,7 @@
 */
 
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 @layer base {
@@ -33,10 +33,10 @@ body {
     --ring: 262.1 83.1% 53.1%;
     --radius: 0.5rem;
 
-    --theme-font: 'Roboto', sans-serif;
-    --theme-green: #4CAF50;
-    --theme-light-grey: #F0F0F0;
-    --theme-orange: #FF9800;
+    --theme-font: "Roboto", sans-serif;
+    --theme-green: #4caf50;
+    --theme-light-grey: #f0f0f0;
+    --theme-orange: #ff9800;
   }
 }
 

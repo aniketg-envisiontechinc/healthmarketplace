@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { ActivityService } from '@/services/activity-service';
-import { Progress } from '@/components/ui/progress';
-import { Activity } from 'lucide-react';
+import { useEffect, useState } from "react";
+import { ActivityService } from "@/services/activity-service";
+import { Progress } from "@/components/ui/progress";
+import { Activity } from "lucide-react";
 
 export function StepCounter() {
   const [steps, setSteps] = useState(0);
@@ -30,10 +30,10 @@ export function StepCounter() {
       }
     };
 
-    window.addEventListener('devicemotion', handleMotion as EventListener);
+    window.addEventListener("devicemotion", handleMotion as EventListener);
 
     return () => {
-      window.removeEventListener('devicemotion', handleMotion as EventListener);
+      window.removeEventListener("devicemotion", handleMotion as EventListener);
     };
   }, []);
 
@@ -51,4 +51,4 @@ export function StepCounter() {
       <Progress value={(steps / STEPS_GOAL) * 100} />
     </div>
   );
-} 
+}

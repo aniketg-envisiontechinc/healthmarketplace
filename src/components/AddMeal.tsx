@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { Button } from "@/components/ui/button";
 import { Camera } from "lucide-react";
@@ -13,4 +13,4 @@ export function AddMeal() {
       </Button>
     </Link>
   );
-} 
+}

@@ -1,9 +1,15 @@
-'use client';
+"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -12,9 +18,16 @@ import { Camera, Loader2, ArrowRight, CheckCircle2 } from "lucide-react";
 import { identifyFoodFromImage } from "@/ai/flows/identify-food-from-image";
 import { refineNutritionData } from "@/ai/flows/refine-nutrition-data";
 import { Progress } from "@/components/ui/progress";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { analyzeNutrition } from "@/ai/flows/analyze-nutrition";
-import { mealService } from '@/services/meal-service';
+import { mealService } from "@/services/meal-service";
 
 interface FoodItem {
   name: string;
@@ -40,9 +53,21 @@ interface MealData {
 }
 
 const steps = [
-  { id: 1, title: "Upload Meal Photo", description: "Take a photo or upload an image of your meal" },
-  { id: 2, title: "Review Analysis", description: "Check the identified food items and nutrition details" },
-  { id: 3, title: "Save Meal", description: "Add any notes and save to your food log" },
+  {
+    id: 1,
+    title: "Upload Meal Photo",
+    description: "Take a photo or upload an image of your meal",
+  },
+  {
+    id: 2,
+    title: "Review Analysis",
+    description: "Check the identified food items and nutrition details",
+  },
+  {
+    id: 3,
+    title: "Save Meal",
+    description: "Add any notes and save to your food log",
+  },
 ];
 
 const uploadImage = async (file: File): Promise<string> => {
@@ -62,8 +87,8 @@ export default function AddMealPage() {
   const [currentStep, setCurrentStep] = useState(1);
   const [isUploading, setIsUploading] = useState(false);
   const [mealData, setMealData] = useState<MealData>({
-    name: '',
-    description: '',
+    name: "",
+    description: "",
     foodItems: [],
     totalCalories: 0,
     totalProtein: 0,
@@ -81,7 +106,7 @@ export default function AddMealPage() {
     try {
       // Upload image to storage
       const imageUrl = await uploadImage(file);
-      setMealData(prev => ({ ...prev, imageUrl }));
+      setMealData((prev) => ({ ...prev, imageUrl }));
 
       // Analyze image with Gemini
       const response = await identifyFoodFromImage({ photoUrl: imageUrl });
@@ -106,7 +131,7 @@ export default function AddMealPage() {
             },
             confidence: nutrition.confidence,
           };
-        })
+        }),
       );
 
       // Calculate totals
@@ -117,13 +142,13 @@ export default function AddMealPage() {
           carbs: acc.carbs + item.nutrition.carbohydrates,
           fat: acc.fat + item.nutrition.fat,
         }),
-        { calories: 0, protein: 0, carbs: 0, fat: 0 }
+        { calories: 0, protein: 0, carbs: 0, fat: 0 },
       );
 
       // Create meal name from food items
-      const mealName = processedItems.map(item => item.name).join(" + ");
+      const mealName = processedItems.map((item) => item.name).join(" + ");
 
-      setMealData(prev => ({
+      setMealData((prev) => ({
         ...prev,
         name: mealName,
         foodItems: processedItems,
@@ -135,7 +160,7 @@ export default function AddMealPage() {
 
       setCurrentStep(2);
     } catch (error) {
-      console.error('Error processing image:', error);
+      console.error("Error processing image:", error);
       toast({
         title: "Error",
         description: "Failed to process the image. Please try again.",
@@ -158,9 +183,9 @@ export default function AddMealPage() {
         description: "Your meal has been successfully tracked.",
       });
 
-      router.push('/dashboard');
+      router.push("/dashboard");
     } catch (error) {
-      console.error('Error saving meal:', error);
+      console.error("Error saving meal:", error);
       toast({
         title: "Error",
         description: "Failed to save the meal. Please try again.",
@@ -174,24 +199,41 @@ export default function AddMealPage() {
       <div className="space-y-8">
         <div className="space-y-2">
           <h1 className="text-3xl font-bold">Track Your Meal</h1>
-          <p className="text-muted-foreground">Follow these steps to log your meal and track its nutritional content.</p>
+          <p className="text-muted-foreground">
+            Follow these steps to log your meal and track its nutritional
+            content.
+          </p>
         </div>
 
         <div className="space-y-4">
-          <Progress value={(currentStep / steps.length) * 100} className="h-2" />
+          <Progress
+            value={(currentStep / steps.length) * 100}
+            className="h-2"
+          />
           <div className="grid grid-cols-3 gap-4">
             {steps.map((step) => (
               <div
                 key={step.id}
                 className={`flex items-center space-x-2 ${
-                  currentStep >= step.id ? 'text-primary' : 'text-muted-foreground'
+                  currentStep >= step.id
+                    ? "text-primary"
+                    : "text-muted-foreground"
                 }`}
               >
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                  currentStep > step.id ? 'bg-primary text-primary-foreground' :
-                  currentStep === step.id ? 'bg-primary/20' : 'bg-muted'
-                }`}>
-                  {currentStep > step.id ? <CheckCircle2 className="h-5 w-5" /> : step.id}
+                <div
+                  className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                    currentStep > step.id
+                      ? "bg-primary text-primary-foreground"
+                      : currentStep === step.id
+                        ? "bg-primary/20"
+                        : "bg-muted"
+                  }`}
+                >
+                  {currentStep > step.id ? (
+                    <CheckCircle2 className="h-5 w-5" />
+                  ) : (
+                    step.id
+                  )}
                 </div>
                 <div>
                   <p className="font-medium">{step.title}</p>
@@ -206,7 +248,10 @@ export default function AddMealPage() {
           <Card>
             <CardHeader>
               <CardTitle>Upload Your Meal Photo</CardTitle>
-              <CardDescription>Take a photo or upload an image of your meal to analyze its nutritional content.</CardDescription>
+              <CardDescription>
+                Take a photo or upload an image of your meal to analyze its
+                nutritional content.
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="flex items-center justify-center w-full">
@@ -242,22 +287,33 @@ export default function AddMealPage() {
             <Card>
               <CardHeader>
                 <CardTitle>Meal Analysis</CardTitle>
-                <CardDescription>Review the identified food items and their nutritional content.</CardDescription>
+                <CardDescription>
+                  Review the identified food items and their nutritional
+                  content.
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   <div className="grid grid-cols-4 gap-4">
                     <div className="space-y-1">
-                      <p className="text-sm text-muted-foreground">Total Calories</p>
-                      <p className="text-2xl font-bold">{mealData.totalCalories}</p>
+                      <p className="text-sm text-muted-foreground">
+                        Total Calories
+                      </p>
+                      <p className="text-2xl font-bold">
+                        {mealData.totalCalories}
+                      </p>
                     </div>
                     <div className="space-y-1">
                       <p className="text-sm text-muted-foreground">Protein</p>
-                      <p className="text-2xl font-bold">{mealData.totalProtein}g</p>
+                      <p className="text-2xl font-bold">
+                        {mealData.totalProtein}g
+                      </p>
                     </div>
                     <div className="space-y-1">
                       <p className="text-sm text-muted-foreground">Carbs</p>
-                      <p className="text-2xl font-bold">{mealData.totalCarbs}g</p>
+                      <p className="text-2xl font-bold">
+                        {mealData.totalCarbs}g
+                      </p>
                     </div>
                     <div className="space-y-1">
                       <p className="text-sm text-muted-foreground">Fat</p>
@@ -280,11 +336,19 @@ export default function AddMealPage() {
                       <TableBody>
                         {mealData.foodItems.map((item, index) => (
                           <TableRow key={index}>
-                            <TableCell className="font-medium">{item.name}</TableCell>
+                            <TableCell className="font-medium">
+                              {item.name}
+                            </TableCell>
                             <TableCell>{item.portionSize}</TableCell>
-                            <TableCell>{item.nutrition?.calories || 0}</TableCell>
-                            <TableCell>{item.nutrition?.protein || 0}g</TableCell>
-                            <TableCell>{item.nutrition?.carbohydrates || 0}g</TableCell>
+                            <TableCell>
+                              {item.nutrition?.calories || 0}
+                            </TableCell>
+                            <TableCell>
+                              {item.nutrition?.protein || 0}g
+                            </TableCell>
+                            <TableCell>
+                              {item.nutrition?.carbohydrates || 0}g
+                            </TableCell>
                             <TableCell>{item.nutrition?.fat || 0}g</TableCell>
                           </TableRow>
                         ))}
@@ -312,7 +376,9 @@ export default function AddMealPage() {
             <Card>
               <CardHeader>
                 <CardTitle>Add Details</CardTitle>
-                <CardDescription>Add any additional information about your meal.</CardDescription>
+                <CardDescription>
+                  Add any additional information about your meal.
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-2">
@@ -320,7 +386,9 @@ export default function AddMealPage() {
                   <Input
                     id="name"
                     value={mealData.name}
-                    onChange={(e) => setMealData(prev => ({ ...prev, name: e.target.value }))}
+                    onChange={(e) =>
+                      setMealData((prev) => ({ ...prev, name: e.target.value }))
+                    }
                     placeholder="e.g., Lunch - Chicken Salad"
                   />
                 </div>
@@ -330,7 +398,12 @@ export default function AddMealPage() {
                   <Textarea
                     id="description"
                     value={mealData.description}
-                    onChange={(e) => setMealData(prev => ({ ...prev, description: e.target.value }))}
+                    onChange={(e) =>
+                      setMealData((prev) => ({
+                        ...prev,
+                        description: e.target.value,
+                      }))
+                    }
                     placeholder="Add any notes about the meal"
                   />
                 </div>
@@ -339,9 +412,7 @@ export default function AddMealPage() {
                   <Button variant="outline" onClick={() => setCurrentStep(2)}>
                     Back
                   </Button>
-                  <Button onClick={handleSaveMeal}>
-                    Save Meal
-                  </Button>
+                  <Button onClick={handleSaveMeal}>Save Meal</Button>
                 </div>
               </CardContent>
             </Card>
@@ -350,4 +421,4 @@ export default function AddMealPage() {
       </div>
     </div>
   );
-} 
+}

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { Activity, Flame, Home, Target } from "lucide-react";
 import Link from "next/link";
@@ -7,12 +7,12 @@ import { cn } from "@/lib/utils";
 
 export function NavBar() {
   const pathname = usePathname();
-  
+
   const navItems = [
-    { href: '/', icon: Home, label: 'Home' },
-    { href: '/dashboard', icon: Activity, label: 'Dashboard' },
-    { href: '/goals', icon: Target, label: 'Goals' },
-    { href: '/activity', icon: Flame, label: 'Activity' },
+    { href: "/", icon: Home, label: "Home" },
+    { href: "/dashboard", icon: Activity, label: "Dashboard" },
+    { href: "/goals", icon: Target, label: "Goals" },
+    { href: "/activity", icon: Flame, label: "Activity" },
   ];
 
   return (
@@ -25,8 +25,8 @@ export function NavBar() {
               key={item.href}
               href={item.href}
               className={cn(
-                'flex flex-col items-center justify-center gap-1 p-2',
-                isActive ? 'text-primary' : 'text-muted-foreground'
+                "flex flex-col items-center justify-center gap-1 p-2",
+                isActive ? "text-primary" : "text-muted-foreground",
               )}
             >
               <item.icon className="h-5 w-5" />
@@ -37,4 +37,4 @@ export function NavBar() {
       </div>
     </nav>
   );
-} 
+}

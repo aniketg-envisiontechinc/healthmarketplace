@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { motion } from "framer-motion";
 import { Heart, Activity, Dumbbell, Brain } from "lucide-react";
@@ -132,4 +132,4 @@ export function LoadingScreen() {
       </motion.div>
     </div>
   );
-} 
+}

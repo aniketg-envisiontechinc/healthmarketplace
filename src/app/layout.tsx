@@ -10,14 +10,15 @@ export const metadata: Metadata = {
   title: "Studio Master",
   description: "Track your meals and steps with AI",
   manifest: "/manifest.json",
+  themeColor: "#000000",
+  viewport: "width=device-width, initial-scale=1, maximum-scale=1",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
     title: "Studio Master",
   },
-  icons: {
-    icon: "/icons/icon-192x192.png",
-    apple: "/icons/icon-192x192.png",
+  formatDetection: {
+    telephone: false,
   },
 };
 
@@ -37,14 +38,13 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn("antialiased", inter.className)}>
       <head>
-        <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="Studio Master" />
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#000000" />
       </head>
       <body>
         <RootLayoutClient>{children}</RootLayoutClient>
       </body>
     </html>
   );
-} 
+}

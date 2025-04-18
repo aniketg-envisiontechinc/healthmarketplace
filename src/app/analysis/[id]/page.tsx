@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useParams } from 'next/navigation';
-import { AnalysisClient } from './client';
+import { useParams } from "next/navigation";
+import { AnalysisClient } from "./client";
 
 export default function Page() {
   const params = useParams();

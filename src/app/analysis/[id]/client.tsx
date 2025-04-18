@@ -1,8 +1,14 @@
-'use client';
+"use client";
 
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { mealService } from "@/services/meal-service";
 import { useEffect, useState } from "react";
 import { Meal } from "@/services/meal-service";
@@ -17,13 +23,13 @@ export function AnalysisClient({ id }: { id: string }) {
       try {
         const loadedMeal = await mealService.getMealById(id);
         if (!loadedMeal) {
-          router.push('/dashboard');
+          router.push("/dashboard");
           return;
         }
         setMeal(loadedMeal);
       } catch (error) {
-        console.error('Error loading meal:', error);
-        router.push('/dashboard');
+        console.error("Error loading meal:", error);
+        router.push("/dashboard");
       } finally {
         setLoading(false);
       }
@@ -74,9 +80,11 @@ export function AnalysisClient({ id }: { id: string }) {
             ))}
           </div>
 
-          <Button onClick={() => router.push('/dashboard')}>Back to Dashboard</Button>
+          <Button onClick={() => router.push("/dashboard")}>
+            Back to Dashboard
+          </Button>
         </CardContent>
       </Card>
     </div>
   );
-} 
+}

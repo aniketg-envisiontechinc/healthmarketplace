@@ -1,8 +1,14 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -20,11 +26,11 @@ interface ActivityData {
 }
 
 export function AddActivity() {
-  const [activityType, setActivityType] = useState('');
-  const [duration, setDuration] = useState('');
-  const [calories, setCalories] = useState('');
+  const [activityType, setActivityType] = useState("");
+  const [duration, setDuration] = useState("");
+  const [calories, setCalories] = useState("");
   const [image, setImage] = useState<string | null>(null);
-  const [notes, setNotes] = useState('');
+  const [notes, setNotes] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
@@ -54,8 +60,13 @@ export function AddActivity() {
       };
 
       // Save to localStorage
-      const existingActivities = JSON.parse(localStorage.getItem('activities') || '[]');
-      localStorage.setItem('activities', JSON.stringify([...existingActivities, activityData]));
+      const existingActivities = JSON.parse(
+        localStorage.getItem("activities") || "[]",
+      );
+      localStorage.setItem(
+        "activities",
+        JSON.stringify([...existingActivities, activityData]),
+      );
 
       toast({
         title: "Activity Added",
@@ -63,11 +74,11 @@ export function AddActivity() {
       });
 
       // Reset form
-      setActivityType('');
-      setDuration('');
-      setCalories('');
+      setActivityType("");
+      setDuration("");
+      setCalories("");
       setImage(null);
-      setNotes('');
+      setNotes("");
     } catch (error) {
       toast({
         title: "Error",
@@ -83,7 +94,7 @@ export function AddActivity() {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="w-full max-w-md"
+      className="w-full max-w-2xl"
     >
       <Card>
         <CardHeader>
@@ -173,4 +184,4 @@ export function AddActivity() {
       </Card>
     </motion.div>
   );
-} 
+}

@@ -1,33 +1,60 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Activity, ArrowRight, Flame, Target, Trophy, Zap, Heart, Dumbbell, Star, Medal, Crown, Footprints, Utensils, BookOpen, TrendingUp, Clock, Award } from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Activity,
+  ArrowRight,
+  Flame,
+  Target,
+  Trophy,
+  Zap,
+  Heart,
+  Dumbbell,
+  Star,
+  Medal,
+  Crown,
+  Footprints,
+  Utensils,
+  BookOpen,
+  TrendingUp,
+  Clock,
+  Award,
+} from "lucide-react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { AddActivity } from "@/components/AddActivity";
 import { AddMeal } from "@/components/AddMeal";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import { LoadingScreen } from "@/components/LoadingScreen";
 import Image from "next/image";
 
 const healthTips = [
   {
     title: "Protein Intake",
-    description: "Aim for 0.8-1.2g of protein per pound of body weight for optimal muscle growth.",
+    description:
+      "Aim for 0.8-1.2g of protein per pound of body weight for optimal muscle growth.",
     icon: Dumbbell,
   },
   {
     title: "Hydration",
-    description: "Drink at least 8 glasses of water daily to maintain optimal performance.",
+    description:
+      "Drink at least 8 glasses of water daily to maintain optimal performance.",
     icon: Heart,
   },
   {
     title: "Sleep Quality",
-    description: "7-9 hours of quality sleep is essential for recovery and muscle growth.",
+    description:
+      "7-9 hours of quality sleep is essential for recovery and muscle growth.",
     icon: Clock,
   },
 ];
@@ -35,7 +62,8 @@ const healthTips = [
 const featuredArticles = [
   {
     title: "The Science of Weight Loss",
-    description: "Understanding the fundamentals of calorie deficit and metabolism.",
+    description:
+      "Understanding the fundamentals of calorie deficit and metabolism.",
     category: "Weight Management",
   },
   {
@@ -51,13 +79,36 @@ const featuredArticles = [
 ];
 
 const achievements = [
-  { id: 1, name: "First Steps", description: "Complete your first activity", icon: Star, progress: 100 },
-  { id: 2, name: "Week Warrior", description: "Complete 7 days of activities", icon: Medal, progress: 85 },
-  { id: 3, name: "Calorie King", description: "Burn 10,000 calories", icon: Crown, progress: 60 },
+  {
+    id: 1,
+    name: "First Steps",
+    description: "Complete your first activity",
+    icon: Star,
+    progress: 100,
+  },
+  {
+    id: 2,
+    name: "Week Warrior",
+    description: "Complete 7 days of activities",
+    icon: Medal,
+    progress: 85,
+  },
+  {
+    id: 3,
+    name: "Calorie King",
+    description: "Burn 10,000 calories",
+    icon: Crown,
+    progress: 60,
+  },
 ];
 
 const workoutChallenges = [
-  { name: "30-Day Challenge", progress: 75, daysLeft: 7, reward: "Exclusive Badge" },
+  {
+    name: "30-Day Challenge",
+    progress: 75,
+    daysLeft: 7,
+    reward: "Exclusive Badge",
+  },
   { name: "Weekend Warrior", progress: 50, daysLeft: 2, reward: "100 Points" },
   { name: "Morning Routine", progress: 30, daysLeft: 5, reward: "50 Points" },
 ];
@@ -73,18 +124,18 @@ export default function Home() {
 
   useEffect(() => {
     // Load user data from localStorage
-    const storedLevel = localStorage.getItem('userLevel');
-    const storedPoints = localStorage.getItem('userPoints');
-    const storedStreak = localStorage.getItem('userStreak');
-    
+    const storedLevel = localStorage.getItem("userLevel");
+    const storedPoints = localStorage.getItem("userPoints");
+    const storedStreak = localStorage.getItem("userStreak");
+
     if (storedLevel) setLevel(parseInt(storedLevel));
     if (storedPoints) setPoints(parseInt(storedPoints));
     if (storedStreak) setStreak(parseInt(storedStreak));
 
     // Check if user has completed onboarding
-    const userData = localStorage.getItem('userData');
+    const userData = localStorage.getItem("userData");
     if (!userData) {
-      router.push('/onboarding');
+      router.push("/onboarding");
     }
 
     // Simulate loading time
@@ -101,7 +152,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col items-center justify-start min-h-screen py-8 gap-8 pb-20">
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         className="text-center space-y-4 relative w-full max-w-4xl px-4"
@@ -115,8 +166,12 @@ export default function Home() {
             priority
           />
           <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center p-8">
-            <h1 className="text-4xl font-bold text-white">Welcome to FitTrack</h1>
-            <p className="text-xl text-white/80">Your personal fitness companion</p>
+            <h1 className="text-4xl font-bold text-white">
+              Welcome to FitTrack
+            </h1>
+            <p className="text-xl text-white/80">
+              Your personal fitness companion
+            </p>
           </div>
         </div>
       </motion.div>
@@ -126,13 +181,12 @@ export default function Home() {
         <Card className="col-span-2">
           <CardHeader>
             <CardTitle>Quick Actions</CardTitle>
-            <CardDescription>Start tracking your fitness journey</CardDescription>
+            <CardDescription>
+              Start tracking your fitness journey
+            </CardDescription>
           </CardHeader>
           <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Button 
-              className="w-full" 
-              onClick={() => setShowAddActivity(true)}
-            >
+            <Button className="w-full" onClick={() => setShowAddActivity(true)}>
               <Activity className="mr-2 h-4 w-4" />
               Track Activity
             </Button>
@@ -150,7 +204,9 @@ export default function Home() {
         <Card>
           <CardHeader>
             <CardTitle>Health Tips</CardTitle>
-            <CardDescription>Expert advice for your fitness journey</CardDescription>
+            <CardDescription>
+              Expert advice for your fitness journey
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             {healthTips.map((tip, index) => (
@@ -171,7 +227,9 @@ export default function Home() {
                 </div>
                 <div>
                   <h3 className="font-semibold">{tip.title}</h3>
-                  <p className="text-sm text-muted-foreground">{tip.description}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {tip.description}
+                  </p>
                 </div>
               </motion.div>
             ))}
@@ -250,7 +308,9 @@ export default function Home() {
                   />
                 </div>
                 <h3 className="font-semibold mb-2">{article.title}</h3>
-                <p className="text-sm text-muted-foreground mb-2">{article.description}</p>
+                <p className="text-sm text-muted-foreground mb-2">
+                  {article.description}
+                </p>
                 <span className="text-xs text-primary">{article.category}</span>
               </motion.div>
             ))}
@@ -293,7 +353,9 @@ export default function Home() {
         <Card>
           <CardHeader>
             <CardTitle>Active Challenges</CardTitle>
-            <CardDescription>Complete challenges to earn rewards</CardDescription>
+            <CardDescription>
+              Complete challenges to earn rewards
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="relative h-32 w-full rounded-lg overflow-hidden mb-4">
@@ -314,10 +376,14 @@ export default function Home() {
               >
                 <div className="flex justify-between items-center">
                   <span className="font-medium">{challenge.name}</span>
-                  <span className="text-sm text-muted-foreground">{challenge.daysLeft} days left</span>
+                  <span className="text-sm text-muted-foreground">
+                    {challenge.daysLeft} days left
+                  </span>
                 </div>
                 <Progress value={challenge.progress} className="h-2" />
-                <span className="text-sm text-muted-foreground">Reward: {challenge.reward}</span>
+                <span className="text-sm text-muted-foreground">
+                  Reward: {challenge.reward}
+                </span>
               </motion.div>
             ))}
           </CardContent>
@@ -338,6 +404,7 @@ export default function Home() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
+              className="w-full max-w-4xl px-4 flex justify-center"
             >
               <AddActivity />
             </motion.div>

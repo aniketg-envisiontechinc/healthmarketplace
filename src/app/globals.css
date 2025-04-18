@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  Source: https://s3-alpha.figma.com/hub/file/2261254710/0edb2180-77d2-4d74-b08c-b0b7ea75fbc2-cover.png
+*/
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+@layer base {
+  :root {
+    --background: 220 14.3% 10.9%; /* Dark Grey */
+    --foreground: 210 4% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 4% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 4% 98%;
+    --primary: 105 59% 50%; /* Fresh Green */
+    --primary-foreground: 210 4% 9%;
+    --secondary: 217.2 32.6% 17.5%; /* Darker Grey */
+    --secondary-foreground: 210 4% 98%;
+    --muted: 216 34% 17%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 36 100% 50%; /* Orange */
+    --accent-foreground: 210 4% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 4% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 262.1 83.1% 53.1%;
+    --radius: 0.5rem;
+
+    --theme-font: 'Roboto', sans-serif;
+    --theme-green: #4CAF50;
+    --theme-light-grey: #F0F0F0;
+    --theme-orange: #FF9800;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
